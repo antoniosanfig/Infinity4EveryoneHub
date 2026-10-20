@@ -1,0 +1,274 @@
+<!-- Status Meta API Badge -->
+<div class="flex items-center gap-3">
+  <div class="hidden sm:flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs">
+    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+    <span class="text-slate-300 font-medium">Meta API: <b class="text-emerald-400">Conectada</b></span>
+    <span class="text-slate-600">|</span>
+    <span class="text-slate-400 text-[11px]">@infinity4everyone_store</span>
+  </div>
+  <button class="bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-md shadow-violet-600/30">
+    <i class="fa-brands fa-whatsapp text-sm"></i> <span class="hidden md:inline">Canal de Ventas</span>
+  </button>
+</div>
+
+
+<!-- ==================== VISTA 1: INVENTARIO ==================== -->
+<section id="view-inventory" class="space-y-6">
+  
+  <!-- Metrics Strip -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+      <p class="text-xs text-slate-400 uppercase font-semibold">Stock Total</p>
+      <p class="text-2xl font-black text-white mt-1" id="metricTotalUnits">14 pzs</p>
+      <span class="text-[11px] text-emerald-400 font-medium">Disponible en bodega</span>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+      <p class="text-xs text-slate-400 uppercase font-semibold">Valor Inventario</p>
+      <p class="text-2xl font-black text-white mt-1" id="metricInventoryValue">$31,489</p>
+      <span class="text-[11px] text-slate-400 font-medium">Precio público</span>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+      <p class="text-xs text-slate-400 uppercase font-semibold">Publicados en IG</p>
+      <p class="text-2xl font-black text-violet-400 mt-1" id="metricPublished">3</p>
+      <span class="text-[11px] text-slate-400 font-medium">Con enlace directo a WA</span>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+      <p class="text-xs text-slate-400 uppercase font-semibold">Estado de Catálogo</p>
+      <p class="text-2xl font-black text-cyan-400 mt-1">Sincronizado</p>
+      <span class="text-[11px] text-emerald-400 font-medium">100% actualizado</span>
+    </div>
+  </div>
+
+  <!-- Action & Filters Bar -->
+  <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+    <div class="flex items-center gap-2 flex-1 max-w-md bg-slate-950 border border-slate-700 px-3 py-2 rounded-lg">
+      <i class="fa-solid fa-magnifying-glass text-slate-500 text-xs"></i>
+      <input type="text" id="searchInput" placeholder="Buscar por nombre, SKU o categoría..." 
+             class="bg-transparent border-0 text-xs w-full text-white focus:outline-none placeholder-slate-500">
+    </div>
+    <div class="flex items-center gap-3">
+      <select id="filterCategory" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-200 focus:outline-none">
+        <option value="ALL">Todas las Categorías</option>
+        <option value="Sillas Gamer">Sillas Gamer</option>
+        <option value="Teclados & Mouse">Teclados & Mouse</option>
+        <option value="Audio & Auriculares">Audio & Auriculares</option>
+        <option value="Monitores">Monitores</option>
+      </select>
+      <button onclick="switchTab('publisher')" class="bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-2 transition whitespace-nowrap shadow-md shadow-violet-600/30">
+        <i class="fa-solid fa-plus"></i> Nuevo Producto
+      </button>
+    </div>
+  </div>
+
+  <!-- Inventory Table -->
+  <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-slate-950/80 border-b border-slate-800 uppercase text-[10px] font-bold text-slate-400 tracking-wider">
+          <tr>
+            <th class="py-3.5 px-4">Producto</th>
+            <th class="py-3.5 px-3">Categoría</th>
+            <th class="py-3.5 px-3">Precio</th>
+            <th class="py-3.5 px-3">Stock Disponible</th>
+            <th class="py-3.5 px-3">Estado Instagram</th>
+            <th class="py-3.5 px-4 text-right">Acción Rápida</th>
+          </tr>
+        </thead>
+        <tbody id="inventoryTableBody" class="divide-y divide-slate-800">
+          <!-- Renderizado dinámico vía JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== VISTA 2: PUBLICADOR & ALTA ==================== -->
+<section id="view-publisher" class="hidden space-y-6">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <!-- Formulario de Alta y Configuración -->
+    <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-square-plus text-violet-400"></i> Formulario de Alta & Publicación
+          </h2>
+          <p class="text-xs text-slate-400">Ingresa la mercancía recibida en Infinity4Everyone.</p>
+        </div>
+        <span class="text-[11px] font-mono bg-violet-500/10 text-violet-300 border border-violet-500/20 px-2 py-1 rounded">
+          SKU: <span id="formSkuPreview">INF-8491</span>
+        </span>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Nombre Comercial del Producto</label>
+          <input type="text" id="inputName" value="Silla Gamer Infinity Ergo Throne RGB" 
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500 transition">
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Categoría</label>
+            <select id="inputCategory" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500">
+              <option value="Sillas Gamer">Sillas Gamer</option>
+              <option value="Teclados & Mouse">Teclados & Mouse</option>
+              <option value="Audio & Auriculares">Audio & Auriculares</option>
+              <option value="Monitores">Monitores</option>
+              <option value="Accesorios">Accesorios</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Precio ($ MXN)</label>
+            <input type="number" id="inputPrice" value="4499" 
+                   class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Piezas en Stock</label>
+            <input type="number" id="inputStock" value="5" min="0" 
+                   class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500">
+          </div>
+        </div>
+
+        <!-- Selector de Foto / Preset -->
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-300 mb-1">Fotografía del Producto</label>
+          <div class="flex items-center gap-4 p-3 bg-slate-950 border border-slate-700 rounded-xl">
+            <div class="w-16 h-16 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center overflow-hidden shrink-0">
+              <img id="formImgPreview" src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=600&q=80" 
+                   alt="Preview" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1 space-y-1.5">
+              <input type="file" id="formFileInput" accept="image/*" class="text-xs text-slate-400 file:mr-2 file:py-1 file:px-2.5 file:rounded file:border-0 file:text-[11px] file:font-semibold file:bg-violet-600 file:text-white cursor-pointer">
+              <p class="text-[10px] text-slate-500">Normalización automática a 1080x1080 JPEG para cumplir estándar de Meta.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interruptor y Plantilla de Instagram -->
+        <div class="pt-3 border-t border-slate-800 space-y-3">
+          <div class="flex items-center justify-between p-3 bg-slate-950 border border-slate-800 rounded-xl">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 flex items-center justify-center text-white text-xs">
+                <i class="fa-brands fa-instagram"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold text-white">Sincronizar publicación en Instagram</p>
+                <p class="text-[10px] text-slate-400">Ejecuta container y /media_publish en Graph API.</p>
+              </div>
+            </div>
+            <input type="checkbox" id="syncCheck" checked class="w-4 h-4 accent-violet-600 cursor-pointer">
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-xs font-semibold uppercase text-slate-300">Copy Autogenerado con WhatsApp Hook</label>
+              <button type="button" onclick="regenerateCopy()" class="text-[11px] text-violet-400 hover:text-violet-300 flex items-center gap-1">
+                <i class="fa-solid fa-arrows-rotate"></i> Regenerar plantilla
+              </button>
+            </div>
+            <textarea id="inputCaption" rows="5" 
+                      class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-300 font-mono leading-relaxed focus:outline-none focus:border-violet-500"></textarea>
+          </div>
+        </div>
+
+        <button type="button" id="saveAndPublishBtn" onclick="handleSaveProduct()" 
+                class="w-full py-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 active:scale-[0.99] transition font-bold text-xs uppercase tracking-wider text-white rounded-xl shadow-lg shadow-violet-600/30 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Guardar en Stock y Publicar en Redes
+        </button>
+      </div>
+    </div>
+
+    <!-- Columna Derecha: Vista previa en vivo de Instagram -->
+    <div class="lg:col-span-5 space-y-3">
+      <div class="flex items-center justify-between px-1">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+          <i class="fa-brands fa-instagram text-rose-400"></i> Simulación Feed Oficial
+        </h3>
+        <span class="text-[10px] text-emerald-400 font-mono">1080 x 1080 PX</span>
+      </div>
+
+      <!-- Celular / Feed Card -->
+      <div class="bg-black border border-slate-800 rounded-3xl overflow-hidden shadow-2xl max-w-sm mx-auto">
+        <!-- IG Card Header -->
+        <div class="px-3.5 py-3 flex items-center justify-between border-b border-slate-900">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 p-[2px]">
+              <div class="w-full h-full bg-black rounded-full flex items-center justify-center font-bold text-[10px] text-white">
+                I4E
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center gap-1">
+                <p class="text-xs font-bold text-white leading-none">infinity4everyone</p>
+                <i class="fa-solid fa-circle-check text-cyan-400 text-[10px]"></i>
+              </div>
+              <p class="text-[10px] text-slate-400 leading-tight">Gaming Store & Setup Gear</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-ellipsis text-slate-500 text-xs"></i>
+        </div>
+
+        <!-- Foto Cuadrada -->
+        <div class="relative w-full aspect-square bg-slate-900 overflow-hidden">
+          <img id="igLivePhoto" src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=600&q=80" 
+               alt="Preview" class="w-full h-full object-cover">
+          
+          <!-- Badge Dinámico de Stock en la Foto -->
+          <div id="igPhotoBadge" class="absolute bottom-2.5 right-2.5 bg-slate-950/85 backdrop-blur px-2.5 py-1 rounded-md border border-violet-500/40 text-[10px] font-bold text-violet-300 shadow-md">
+            Stock: <span id="igLiveStockCount">5 piezas</span>
+          </div>
+        </div>
+
+        <!-- Interacciones -->
+        <div class="p-3.5 space-y-2">
+          <div class="flex items-center justify-between text-base text-white">
+            <div class="flex items-center gap-3">
+              <i class="fa-regular fa-heart hover:text-rose-500 cursor-pointer"></i>
+              <i class="fa-regular fa-comment hover:text-violet-400 cursor-pointer"></i>
+              <i class="fa-regular fa-paper-plane hover:text-violet-400 cursor-pointer"></i>
+            </div>
+            <i class="fa-regular fa-bookmark"></i>
+          </div>
+
+          <p class="text-[11px] font-bold text-white">Le gusta a comunidad_gamer y 142 más</p>
+
+          <!-- Texto del Post -->
+          <div class="text-[11px] text-slate-300 leading-relaxed">
+            <span class="font-bold text-white mr-1">infinity4everyone</span>
+            <span id="igLiveCaption" class="whitespace-pre-line text-slate-300"></span>
+          </div>
+
+          <p class="text-[9px] uppercase text-slate-500 pt-1 tracking-wider">HACE 1 MINUTO • PUBLICADO VÍA INFINITY HUB</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== VISTA 3: LOGS META API ==================== -->
+<section id="view-logs" class="hidden space-y-4">
+  <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-code text-cyan-400"></i> Registro de Peticiones Meta Graph API v21.0
+        </h3>
+        <p class="text-xs text-slate-400">Demostración técnica del flujo de dos pasos (Contenedor -> Publicación).</p>
+      </div>
+      <button onclick="clearLogs()" class="text-xs text-slate-400 hover:text-rose-400 transition">
+        <i class="fa-solid fa-trash-can"></i> Limpiar consola
+      </button>
+    </div>
+
+    <div id="logsTerminal" class="bg-slate-950 border border-slate-800 rounded-lg p-4 font-mono text-xs text-slate-300 space-y-2 max-h-[450px] overflow-y-auto">
+      <!-- Logs precargados para demostración técnica -->
+      <div class="text-emerald-400 font-bold">[READY] Graph API Engine initialized with Business Account ID: 178414059281044</div>
+      <div class="text-slate-500">--------------------------------------------------------------------------------</div>
+      <div><span class="text-violet-400">[INFO]</span> Token de larga duración verificado: Activo (60 días restantes)</div>
+      <div><span class="text-cyan-400">[POST]</span> /178414059281044/media -> status: 200 OK | creation_id: 17992019482019284</div>
+      <div><span class="text-emerald-400">[POST]</span> /178414059281044/media_publish?creation_id=17992019482019284 -> ID: 17923485719302194</div>
+    </div>
+  </div>
+</section>
