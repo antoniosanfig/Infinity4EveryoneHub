@@ -1,407 +1,782 @@
-<!-- Badges de Conexión & Demo WhatsApp -->
-<div class="flex items-center gap-3">
-  <div class="hidden lg:flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
-    <span class="relative flex h-2 w-2">
-      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-      <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-    </span>
-    <span class="text-slate-300 font-medium">Meta API: <b class="text-emerald-400 font-semibold">Online</b></span>
-    <span class="text-slate-600">|</span>
-    <span class="text-slate-400 text-[11px]">@infinity4everyone</span>
-  </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinity4Everyone - Control de Inventario & Social Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .aspect-square-custom { aspect-ratio: 1 / 1; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b0f19; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
 
-  <button onclick="openConfigModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-700 transition flex items-center gap-2">
-    <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
-    <span class="hidden sm:inline">WhatsApp:</span> <span id="headerWaNumberDisplay" class="font-mono text-emerald-300">+52 1 686 123 4567</span>
-    <i class="fa-solid fa-gear text-slate-500 text-[10px]"></i>
-  </button>
-</div>
-
-
-<!-- ==================== PESTAÑA 1: INVENTARIO ==================== -->
-<section id="view-inventory" class="space-y-6">
-  
-  <!-- Métricas Superiores -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    <div class="bg-slate-900 border border-slate-800/80 p-4 rounded-2xl shadow-sm">
-      <div class="flex items-center justify-between">
-        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Stock Físico</span>
-        <i class="fa-solid fa-cubes text-slate-600 text-sm"></i>
+  <!-- Encabezado Principal -->
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-900/30 font-black text-xl text-white">
+        ∞
       </div>
-      <p class="text-2xl font-black text-white mt-2" id="metricTotalUnits">0 pzs</p>
-      <span class="text-[11px] text-emerald-400 font-medium flex items-center gap-1 mt-1">
-        <i class="fa-solid fa-circle-check text-[9px]"></i> Almacén sincronizado
-      </span>
-    </div>
-
-    <div class="bg-slate-900 border border-slate-800/80 p-4 rounded-2xl shadow-sm">
-      <div class="flex items-center justify-between">
-        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Valor en Tienda</span>
-        <i class="fa-solid fa-dollar-sign text-slate-600 text-sm"></i>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-base font-extrabold tracking-tight text-white">Infinity4Everyone</h1>
+          <span class="text-[10px] bg-purple-500/20 text-purple-300 font-bold px-2 py-0.5 rounded-full border border-purple-500/30">Gaming Hub</span>
+        </div>
+        <p class="text-xs text-slate-400">Control de Inventario & Publicación Automatizada</p>
       </div>
-      <p class="text-2xl font-black text-white mt-2" id="metricInventoryValue">$0</p>
-      <span class="text-[11px] text-slate-400 font-medium mt-1 block">Precio venta al público</span>
     </div>
 
-    <div class="bg-slate-900 border border-slate-800/80 p-4 rounded-2xl shadow-sm">
-      <div class="flex items-center justify-between">
-        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Posts en Instagram</span>
-        <i class="fa-brands fa-instagram text-rose-500 text-sm"></i>
+    <!-- Acciones Rápidas Superior -->
+    <div class="flex items-center gap-3">
+      <div class="hidden md:flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-slate-300">Meta Graph API:</span>
+        <span class="text-emerald-400 font-semibold">Conectado (@infinity4everyone_store)</span>
       </div>
-      <p class="text-2xl font-black text-violet-400 mt-2" id="metricPublished">0</p>
-      <span class="text-[11px] text-violet-300 font-medium mt-1 block">Con Hook directo a WhatsApp</span>
-    </div>
 
-    <div class="bg-slate-900 border border-slate-800/80 p-4 rounded-2xl shadow-sm">
-      <div class="flex items-center justify-between">
-        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Cierre WhatsApp</span>
-        <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
-      </div>
-      <p class="text-2xl font-black text-emerald-400 mt-2">1 Clic</p>
-      <span class="text-[11px] text-emerald-300 font-medium mt-1 block">Mensaje de venta prearmado</span>
-    </div>
-  </div>
-
-  <!-- Barra de Filtros y Búsqueda -->
-  <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
-    <div class="flex items-center gap-2.5 flex-1 max-w-md bg-slate-950 border border-slate-700/80 px-3.5 py-2.5 rounded-xl">
-      <i class="fa-solid fa-magnifying-glass text-slate-500 text-xs"></i>
-      <input type="text" id="searchInput" placeholder="Buscar por producto, categoría o SKU..." 
-             class="bg-transparent border-0 text-xs w-full text-white focus:outline-none placeholder-slate-500">
-    </div>
-
-    <div class="flex flex-wrap items-center gap-3">
-      <select id="filterCategory" class="bg-slate-950 border border-slate-700/80 text-xs rounded-xl px-3.5 py-2.5 text-slate-200 focus:outline-none focus:border-violet-500">
-        <option value="ALL">Todas las Categorías</option>
-        <option value="Sillas Gamer">Sillas Gamer</option>
-        <option value="Teclados & Mouse">Teclados & Mouse</option>
-        <option value="Audio & Auriculares">Audio & Auriculares</option>
-        <option value="Monitores">Monitores</option>
-        <option value="Componentes">Componentes</option>
-      </select>
-      <button onclick="switchTab('publisher')" class="bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition shadow-lg shadow-violet-600/30">
-        <i class="fa-solid fa-plus"></i> Nuevo Producto
+      <button onclick="openConfigModal()" class="flex items-center gap-2 bg-emerald-600/15 border border-emerald-500/30 hover:bg-emerald-600/25 text-emerald-300 px-3 py-1.5 rounded-xl text-xs font-semibold transition">
+        <i class="fa-brands fa-whatsapp text-sm"></i>
+        <span id="headerWaNumberDisplay" class="font-mono">+52 1 686 123 4567</span>
+        <i class="fa-solid fa-pen text-[10px] opacity-70"></i>
       </button>
     </div>
+  </header>
+
+  <!-- Pestañas de Navegación -->
+  <div class="border-b border-slate-800 bg-slate-900/40 px-4 sm:px-8">
+    <nav class="flex gap-2 sm:gap-6 text-xs sm:text-sm font-semibold overflow-x-auto py-2">
+      <button onclick="switchTab('inventory')" id="tab-inventory" class="tab-btn px-3 py-2 rounded-lg text-purple-400 bg-purple-500/10 border border-purple-500/20 flex items-center gap-2 transition whitespace-nowrap">
+        <i class="fa-solid fa-boxes-stacked"></i> Inventario & Stock
+      </button>
+      <button onclick="switchTab('publish')" id="tab-publish" class="tab-btn px-3 py-2 rounded-lg text-slate-400 hover:text-slate-200 flex items-center gap-2 transition whitespace-nowrap">
+        <i class="fa-brands fa-instagram"></i> Alta & Publicación Meta
+      </button>
+      <button onclick="switchTab('whatsapp')" id="tab-whatsapp" class="tab-btn px-3 py-2 rounded-lg text-slate-400 hover:text-slate-200 flex items-center gap-2 transition whitespace-nowrap">
+        <i class="fa-brands fa-whatsapp"></i> Motor WhatsApp & Leads
+      </button>
+      <button onclick="switchTab('logs')" id="tab-logs" class="tab-btn px-3 py-2 rounded-lg text-slate-400 hover:text-slate-200 flex items-center gap-2 transition whitespace-nowrap">
+        <i class="fa-solid fa-server"></i> API Graph Logs
+      </button>
+    </nav>
   </div>
 
-  <!-- Tabla de Inventario -->
-  <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-    <div class="overflow-x-auto">
-      <table class="w-full text-left text-xs">
-        <thead class="bg-slate-950/70 border-b border-slate-800 uppercase text-[10px] font-bold text-slate-400 tracking-wider">
-          <tr>
-            <th class="py-4 px-4">Producto & SKU</th>
-            <th class="py-4 px-3">Categoría</th>
-            <th class="py-4 px-3">Precio</th>
-            <th class="py-4 px-3">Stock en Tienda</th>
-            <th class="py-4 px-3">Sincronización IG</th>
-            <th class="py-4 px-4 text-center">Canal WhatsApp</th>
-            <th class="py-4 px-4 text-right">Acción Rápida</th>
-          </tr>
-        </thead>
-        <tbody id="inventoryTableBody" class="divide-y divide-slate-800">
-          <!-- Renderizado dinámico vía JavaScript -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
+  <!-- Contenido Central -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-8 space-y-6">
 
-<!-- ==================== PESTAÑA 2: ALTA & PUBLICADOR ==================== -->
-<section id="view-publisher" class="hidden space-y-6">
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-    
-    <!-- Formulario de Alta y Configuración -->
-    <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-5">
-      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
-        <div>
-          <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-circle-plus text-violet-400"></i> Registro de Producto & Lanzador
-          </h2>
-          <p class="text-xs text-slate-400">Ingresa la mercancía recibida y dispara la publicación con 1 clic.</p>
+    <!-- ==================== PESTAÑA 1: INVENTARIO ==================== -->
+    <section id="view-inventory" class="space-y-6">
+      
+      <!-- Métricas -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+          <p class="text-xs font-semibold text-slate-400 uppercase">Stock Físico</p>
+          <p id="metricTotalUnits" class="text-2xl font-black text-white mt-1">17 pzs</p>
+          <span class="text-[11px] text-emerald-400"><i class="fa-solid fa-check"></i> 4 modelos activos</span>
         </div>
-        <span class="text-[11px] font-mono bg-violet-500/10 text-violet-300 border border-violet-500/20 px-2.5 py-1 rounded-lg">
-          SKU: <span id="formSkuPreview">INF-8491</span>
-        </span>
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+          <p class="text-xs font-semibold text-slate-400 uppercase">Valor Inventario</p>
+          <p id="metricTotalValue" class="text-2xl font-black text-purple-400 mt-1">$41,883</p>
+          <span class="text-[11px] text-slate-400">Precio de venta público</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+          <p class="text-xs font-semibold text-slate-400 uppercase">En Feed Instagram</p>
+          <p id="metricPublishedCount" class="text-2xl font-black text-pink-400 mt-1">3 posts</p>
+          <span class="text-[11px] text-pink-400/80"><i class="fa-solid fa-cloud-arrow-up"></i> Sincronizados</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+          <p class="text-xs font-semibold text-slate-400 uppercase">Conversión WA</p>
+          <p class="text-2xl font-black text-emerald-400 mt-1">1-Clic</p>
+          <span class="text-[11px] text-emerald-400/80"><i class="fa-solid fa-link"></i> Enlaces dinámicos activos</span>
+        </div>
       </div>
 
-      <div class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold uppercase text-slate-300 mb-1.5">Nombre del Producto</label>
-          <input type="text" id="inputName" value="Silla Gamer Infinity Ergo Throne RGB" 
-                 class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500 transition">
+      <!-- Barra de herramientas de inventario -->
+      <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <div class="relative w-full sm:w-80">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+            <input type="text" id="searchInput" oninput="filterTable()" placeholder="Buscar por producto o SKU..." 
+                   class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-purple-500">
+          </div>
+          <select id="categoryFilter" onchange="filterTable()" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-purple-500">
+            <option value="ALL">Todas las Categorías</option>
+            <option value="Sillas">Sillas Gamer</option>
+            <option value="Audio">Audio / Headsets</option>
+            <option value="Periféricos">Teclados / Ratones</option>
+            <option value="Accesorios">Accesorios</option>
+          </select>
+        </div>
+        <button onclick="switchTab('publish')" class="w-full sm:w-auto bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-plus"></i> Nuevo Ingreso a Stock
+        </button>
+      </div>
+
+      <!-- Tabla de Productos -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950/80 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800 font-bold">
+              <tr>
+                <th class="p-4">Producto / Modelo</th>
+                <th class="p-4">Categoría</th>
+                <th class="p-4">Precio Público</th>
+                <th class="p-4">Stock Físico</th>
+                <th class="p-4">Estado Meta</th>
+                <th class="p-4 text-center">Acciones Rápidas</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryTableBody" class="divide-y divide-slate-800/60 font-medium">
+              <!-- Renderizado dinámico vía JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PESTAÑA 2: ALTA & INSTAGRAM ==================== -->
+    <section id="view-publish" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Formulario -->
+      <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+        <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+          <div>
+            <h2 class="text-sm font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-circle-plus text-purple-400"></i> Entrada de Mercancía & Publicación
+            </h2>
+            <p class="text-xs text-slate-400">Se añade al inventario y se envía al feed de Instagram al instante.</p>
+          </div>
+          <span id="formSkuDisplay" class="text-xs bg-slate-950 text-purple-300 border border-purple-500/30 px-2.5 py-1 rounded-md font-mono">SKU: INF-9201</span>
         </div>
 
-        <div class="grid grid-cols-3 gap-3">
+        <div class="space-y-3">
           <div>
-            <label class="block text-xs font-semibold uppercase text-slate-300 mb-1.5">Categoría</label>
-            <select id="inputCategory" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500">
-              <option value="Sillas Gamer">Sillas Gamer</option>
-              <option value="Teclados & Mouse">Teclados & Mouse</option>
-              <option value="Audio & Auriculares">Audio & Auriculares</option>
-              <option value="Monitores">Monitores</option>
-              <option value="Componentes">Componentes</option>
-            </select>
+            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Nombre Comercial del Producto</label>
+            <input type="text" id="inputTitle" value="Silla Gamer Infinity Ergo Throne RGB" 
+                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-purple-500">
           </div>
-          <div>
-            <label class="block text-xs font-semibold uppercase text-slate-300 mb-1.5">Precio ($ MXN)</label>
-            <input type="number" id="inputPrice" value="4499" 
-                   class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold uppercase text-slate-300 mb-1.5">Stock Inicial</label>
-            <input type="number" id="inputStock" value="5" min="0" 
-                   class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500">
-          </div>
-        </div>
 
-        <!-- Selector de Foto / Upload -->
-        <div>
-          <label class="block text-xs font-semibold uppercase text-slate-300 mb-1.5">Fotografía del Producto</label>
-          <div class="flex items-center gap-4 p-3.5 bg-slate-950 border border-slate-700/80 rounded-2xl">
-            <div class="w-16 h-16 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center overflow-hidden shrink-0">
-              <img id="formImgPreview" src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=600&q=80" 
-                   alt="Preview" class="w-full h-full object-cover">
+          <div class="grid grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Categoría</label>
+              <select id="inputCategory" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500">
+                <option value="Sillas">Sillas Gamer</option>
+                <option value="Audio">Audio / Headsets</option>
+                <option value="Periféricos">Teclados / Ratones</option>
+                <option value="Accesorios">Accesorios</option>
+              </select>
             </div>
-            <div class="flex-1 space-y-1">
-              <input type="file" id="formFileInput" accept="image/*" class="text-xs text-slate-400 file:mr-2.5 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-violet-600 file:text-white cursor-pointer hover:file:bg-violet-500">
-              <p class="text-[10px] text-slate-500">Optimización a JPG cuadrado 1:1 lista para Meta API sin Photoshop.</p>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Precio ($ MXN)</label>
+              <input type="number" id="inputPrice" value="4499" 
+                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-purple-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Piezas Stock</label>
+              <input type="number" id="inputStock" value="5" 
+                     class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-purple-500">
             </div>
           </div>
-        </div>
 
-        <!-- Interruptor y Plantilla de Instagram -->
-        <div class="pt-3 border-t border-slate-800 space-y-3">
-          <div class="flex items-center justify-between p-3.5 bg-slate-950 border border-slate-800 rounded-2xl">
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 flex items-center justify-center text-white text-xs">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Imagen del Producto</label>
+            <div class="flex items-center gap-3 p-3 bg-slate-950 border border-dashed border-slate-800 rounded-xl">
+              <img id="formImageThumb" src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=600&q=80" 
+                   class="w-14 h-14 rounded-lg object-cover border border-slate-800">
+              <div class="flex-1">
+                <input type="file" id="imageFileInput" accept="image/*" class="text-xs text-slate-400 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-500 cursor-pointer">
+                <p class="text-[10px] text-slate-500 mt-1">El sistema normaliza a JPG relación 1:1 requerida por Meta API.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3.5 bg-slate-950/80 border border-slate-800 rounded-xl flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 flex items-center justify-center text-white text-xs">
                 <i class="fa-brands fa-instagram"></i>
               </div>
               <div>
-                <p class="text-xs font-bold text-white">Publicar simultáneamente en Instagram</p>
-                <p class="text-[10px] text-slate-400">Crea el contenedor y publica al guardar con Graph API.</p>
+                <p class="text-xs font-bold text-white">Publicar a Instagram automáticamente</p>
+                <p class="text-[10px] text-slate-400">Crea el container y lanza al feed de @infinity4everyone_store</p>
               </div>
             </div>
-            <input type="checkbox" id="syncCheck" checked class="w-5 h-5 accent-violet-600 cursor-pointer">
+            <input type="checkbox" id="checkPublishInstagram" checked class="w-4 h-4 accent-purple-600 cursor-pointer">
           </div>
 
           <div>
-            <div class="flex justify-between items-center mb-1.5">
-              <label class="text-xs font-semibold uppercase text-slate-300">Copy Dinámico con Enlace a WhatsApp</label>
-              <button type="button" onclick="regenerateCopy()" class="text-[11px] text-violet-400 hover:text-violet-300 flex items-center gap-1 font-semibold">
-                <i class="fa-solid fa-arrows-rotate"></i> Regenerar plantilla
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-xs font-semibold text-slate-300 uppercase">Copy y Hashtags Generados</label>
+              <button onclick="refreshCopyTemplate()" type="button" class="text-[11px] text-purple-400 hover:text-purple-300 flex items-center gap-1">
+                <i class="fa-solid fa-rotate"></i> Regenerar plantilla
               </button>
             </div>
-            <textarea id="inputCaption" rows="6" 
-                      class="w-full bg-slate-950 border border-slate-700/80 rounded-xl p-3 text-xs text-slate-300 font-mono leading-relaxed focus:outline-none focus:border-violet-500"></textarea>
+            <textarea id="inputCaption" rows="5" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-300 focus:outline-none focus:border-purple-500"></textarea>
           </div>
+
+          <button onclick="handleSaveAndPublish()" id="btnSaveAndPublish" 
+                  class="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-purple-600/25 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-bolt"></i> Guardar en Inventario y Publicar en Redes
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview de Instagram Feed -->
+      <div class="lg:col-span-5 space-y-3">
+        <div class="flex items-center justify-between px-2">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-eye text-purple-400"></i> Vista Previa en Feed
+          </p>
+          <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Render Oficial</span>
         </div>
 
-        <button type="button" id="saveAndPublishBtn" onclick="handleSaveProduct()" 
-                class="w-full py-3.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 active:scale-[0.99] transition font-bold text-xs uppercase tracking-wider text-white rounded-2xl shadow-xl shadow-violet-600/30 flex items-center justify-center gap-2">
-          <i class="fa-solid fa-bolt"></i> Guardar en Inventario y Sincronizar en Vivo
-        </button>
-      </div>
-    </div>
-
-    <!-- Columna Derecha: Vista previa en vivo de Instagram -->
-    <div class="lg:col-span-5 space-y-4">
-      <div class="flex items-center justify-between px-1">
-        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-          <i class="fa-brands fa-instagram text-rose-400"></i> Previsualización en Vivo de Feed
-        </h3>
-        <span class="text-[10px] text-emerald-400 font-mono font-semibold">1080 x 1080 PX</span>
-      </div>
-
-      <!-- Celular / Feed Card -->
-      <div class="bg-black border border-slate-800 rounded-3xl overflow-hidden shadow-2xl max-w-sm mx-auto">
-        <!-- Header Post -->
-        <div class="px-3.5 py-3 flex items-center justify-between border-b border-slate-900">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 p-[2px]">
-              <div class="w-full h-full bg-black rounded-full flex items-center justify-center font-bold text-[10px] text-white">
-                I4E
+        <div class="bg-black border border-slate-800 rounded-3xl overflow-hidden shadow-2xl max-w-sm mx-auto">
+          <!-- IG Header -->
+          <div class="px-4 py-3 flex items-center justify-between border-b border-slate-900">
+            <div class="flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 p-[2px]">
+                <div class="w-full h-full bg-black rounded-full flex items-center justify-center text-[9px] font-black text-white">
+                  ∞
+                </div>
+              </div>
+              <div>
+                <p class="text-xs font-bold text-white leading-tight">infinity4everyone_store</p>
+                <p class="text-[10px] text-slate-400 leading-none">Gaming & Setups</p>
               </div>
             </div>
-            <div>
-              <div class="flex items-center gap-1">
-                <p class="text-xs font-bold text-white leading-none">infinity4everyone</p>
-                <i class="fa-solid fa-circle-check text-cyan-400 text-[10px]"></i>
+            <i class="fa-solid fa-ellipsis text-slate-500 text-xs"></i>
+          </div>
+
+          <!-- Imagen Cuadrada -->
+          <div class="relative w-full aspect-square-custom bg-slate-900 overflow-hidden">
+            <img id="igPreviewImage" src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=600&q=80" 
+                 class="w-full h-full object-cover">
+            <div id="igPreviewStockBadge" class="absolute bottom-2.5 right-2.5 bg-black/80 backdrop-blur px-2 py-0.5 rounded text-[10px] font-bold text-emerald-400 border border-emerald-500/30">
+              5 en stock
+            </div>
+          </div>
+
+          <!-- Barra de Interacción -->
+          <div class="p-3.5 space-y-2">
+            <div class="flex items-center justify-between text-base text-white">
+              <div class="flex items-center gap-3">
+                <i class="fa-regular fa-heart"></i>
+                <i class="fa-regular fa-comment"></i>
+                <i class="fa-regular fa-paper-plane"></i>
               </div>
-              <p class="text-[10px] text-slate-400 leading-tight">Gaming Store & Setups</p>
+              <i class="fa-regular fa-bookmark"></i>
             </div>
-          </div>
-          <i class="fa-solid fa-ellipsis text-slate-500 text-xs"></i>
-        </div>
-
-        <!-- Foto Cuadrada -->
-        <div class="relative w-full aspect-square bg-slate-900 overflow-hidden">
-          <img id="igLivePhoto" src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=600&q=80" 
-               alt="Preview" class="w-full h-full object-cover">
-          
-          <!-- Badge Dinámico de Stock en la Foto -->
-          <div id="igPhotoBadge" class="absolute bottom-2.5 right-2.5 bg-slate-950/85 backdrop-blur px-2.5 py-1 rounded-lg border border-violet-500/40 text-[10px] font-bold text-violet-300 shadow-md">
-            Stock: <span id="igLiveStockCount">5 piezas</span>
+            <p class="text-[11px] font-bold text-white">Les gusta a setup_gamers y 42 más</p>
+            <p class="text-xs text-slate-200">
+              <span class="font-bold text-white mr-1">infinity4everyone_store</span>
+              <span id="igPreviewCaption" class="whitespace-pre-line text-slate-300"></span>
+            </p>
+            <p class="text-[9px] uppercase text-slate-500 pt-1 tracking-wider">HACE UN MOMENTO</p>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Acciones -->
-        <div class="p-3.5 space-y-2">
-          <div class="flex items-center justify-between text-base text-white">
-            <div class="flex items-center gap-3">
-              <i class="fa-regular fa-heart hover:text-rose-500 cursor-pointer"></i>
-              <i class="fa-regular fa-comment hover:text-violet-400 cursor-pointer"></i>
-              <i class="fa-regular fa-paper-plane hover:text-violet-400 cursor-pointer"></i>
-            </div>
-            <i class="fa-regular fa-bookmark"></i>
+    <!-- ==================== PESTAÑA 3: WHATSAPP HOOKS ==================== -->
+    <section id="view-whatsapp" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-1">
+          <div class="inline-flex items-center gap-2 text-emerald-400 text-xs font-bold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp Cierre Directo
           </div>
-
-          <p class="text-[11px] font-bold text-white">Les gusta a comunidad_gamer y 89 más</p>
-
-          <!-- Texto del Post -->
-          <div class="text-[11px] text-slate-300 leading-relaxed">
-            <span class="font-bold text-white mr-1">infinity4everyone</span>
-            <span id="igLiveCaption" class="whitespace-pre-line text-slate-300"></span>
-          </div>
-
-          <!-- Botón simulado de Enlace en Bio -->
-          <div class="pt-2 border-t border-slate-900 flex items-center justify-between text-[11px]">
-            <span class="text-slate-400">¿Apartar este producto?</span>
-            <button onclick="testLeadModal('Silla Gamer Infinity Ergo Throne RGB', 'INF-8491', 4499)" class="text-emerald-400 font-bold hover:underline flex items-center gap-1">
-              <i class="fa-brands fa-whatsapp"></i> Enviar WhatsApp
-            </button>
-          </div>
-
-          <p class="text-[9px] uppercase text-slate-500 pt-1 tracking-wider">HACE UN MOMENTO • PUBLICADO CON INFINITY HUB</p>
+          <h2 class="text-base font-bold text-white">Generación de Enlaces de Compra Dinámicos</h2>
+          <p class="text-xs text-slate-400 max-w-xl">
+            Cada producto del inventario genera una URL de WhatsApp personalizada. Cuando un cliente hace clic en Instagram, se abre un chat con el mensaje pre-cargado para apartar la pieza sin rodeos.
+          </p>
         </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ==================== PESTAÑA 3: AUTOMATIZACIÓN WHATSAPP ==================== -->
-<section id="view-whatsapp" class="hidden space-y-6">
-  <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
-    <div class="max-w-3xl space-y-3">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold">
-        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp Commerce Closing Engine
-      </div>
-      <h2 class="text-xl font-black text-white">Cierre de Ventas Inmediato: De Instagram a tu Chat en 1 Clic</h2>
-      <p class="text-xs text-slate-300 leading-relaxed">
-        El problema de publicar en Instagram es responder 50 veces "¿precio y detalles?". Con este sistema, cada publicación en redes y cada tarjeta del catálogo genera un enlace <b>wa.me</b> exclusivo que abre la app de WhatsApp del comprador con el mensaje ya escrito especificando el producto y el stock.
-      </p>
-    </div>
-
-    <!-- Pipeline Visual -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 pt-6 border-t border-slate-800">
-      <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-        <div class="w-8 h-8 rounded-xl bg-violet-600/20 text-violet-400 flex items-center justify-center font-bold text-xs">
-          1
-        </div>
-        <h4 class="text-xs font-bold text-white">Cliente Descubre en IG</h4>
-        <p class="text-[11px] text-slate-400 leading-relaxed">
-          El cliente ve la foto optimizada en el feed con el precio visible y el llamado a la acción claro.
-        </p>
-      </div>
-
-      <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-        <div class="w-8 h-8 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
-          2
-        </div>
-        <h4 class="text-xs font-bold text-white">Clic en Enlace Inteligente</h4>
-        <p class="text-[11px] text-slate-400 leading-relaxed">
-          El link transfiere automáticamente el SKU, nombre del accesorio y precio sin errores de captura.
-        </p>
-      </div>
-
-      <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-        <div class="w-8 h-8 rounded-xl bg-cyan-600/20 text-cyan-400 flex items-center justify-center font-bold text-xs">
-          3
-        </div>
-        <h4 class="text-xs font-bold text-white">Tu Amigo Solo Cobra</h4>
-        <p class="text-[11px] text-slate-400 leading-relaxed">
-          Recibe el mensaje estructurado en su WhatsApp listo para enviar datos bancarios o acordar entrega.
-        </p>
-      </div>
-    </div>
-
-    <!-- Simulador en Vivo de Mensaje Recibido -->
-    <div class="mt-8 bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4">
-      <div class="flex items-center justify-between">
-        <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-          <i class="fa-solid fa-mobile-screen text-emerald-400"></i> Simulador: Mensaje recibido en el WhatsApp de Infinity4Everyone
-        </h4>
-        <span class="text-[10px] text-slate-500">Prueba con cualquier producto del inventario</span>
-      </div>
-
-      <!-- Chat bubble preview -->
-      <div class="bg-[#0b141a] p-4 rounded-2xl max-w-md mx-auto border border-emerald-950/40 shadow-inner">
-        <div class="bg-[#005c4b] text-slate-100 p-3 rounded-2xl rounded-tr-none text-xs leading-relaxed space-y-1 shadow">
-          <p class="font-bold text-emerald-200 text-[11px]">👋 ¡Hola Infinity4Everyone! Me interesa comprar este producto visto en su catálogo:</p>
-          <div class="bg-black/20 p-2 rounded-lg text-[11px] space-y-0.5">
-            <p>🎮 <b>Producto:</b> <span id="waSimProduct">Silla Gamer Infinity Ergo Throne RGB</span></p>
-            <p>🏷️ <b>Código SKU:</b> <span id="waSimSku">INF-8491</span></p>
-            <p>💵 <b>Precio anunciado:</b> <span id="waSimPrice">$4,499 MXN</span></p>
-          </div>
-          <p class="text-[11px]">¿Tienen disponibilidad para envío o entrega inmediata? ¿Cuáles son sus métodos de pago?</p>
-          <span class="block text-right text-[9px] text-emerald-300/70 pt-1">12:34 p.m. <i class="fa-solid fa-check-double text-[9px]"></i></span>
-        </div>
-      </div>
-
-      <div class="text-center">
-        <button onclick="testDirectWhatsApp()" class="bg-whatsapp hover:bg-emerald-600 text-slate-950 font-black text-xs px-5 py-2.5 rounded-xl transition inline-flex items-center gap-2 shadow-lg shadow-emerald-500/20">
-          <i class="fa-brands fa-whatsapp text-sm"></i> Probar Abrir en WhatsApp Real
+        <button onclick="openConfigModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-3 rounded-xl transition flex items-center gap-2 shrink-0">
+          <i class="fa-solid fa-gear"></i> Configurar Número de WhatsApp
         </button>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- ==================== PESTAÑA 4: LOGS META API ==================== -->
-<section id="view-logs" class="hidden space-y-4">
-  <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
-    <div class="flex items-center justify-between mb-4">
-      <div>
+      <!-- Simulador de Leads Recibidos -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Tarjeta de Prueba Interactiva -->
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+            <i class="fa-solid fa-mobile-screen text-emerald-400"></i> Probar Disparo de Enlace
+          </h3>
+          <p class="text-xs text-slate-400">Selecciona un producto para simular el mensaje de compra que tu amigo recibiría en WhatsApp:</p>
+
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Producto de Prueba</label>
+            <select id="selectWaTestProduct" onchange="updateWaTestPreview()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200">
+              <!-- Opciones dinámicas -->
+            </select>
+          </div>
+
+          <div class="p-3.5 bg-slate-950 border border-slate-800 rounded-xl font-mono text-xs text-slate-300 space-y-1">
+            <span class="text-[10px] text-slate-500 uppercase tracking-wider block">URL Generada para el Botón:</span>
+            <p id="waTestGeneratedUrl" class="text-emerald-400 break-all select-all text-[11px]"></p>
+          </div>
+
+          <button onclick="triggerWaSimulatedSend()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp"></i> Simular Apertura en WhatsApp del Cliente
+          </button>
+        </div>
+
+        <!-- Vista Celular Simulado de WhatsApp -->
+        <div class="bg-[#0b141a] border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col justify-between max-w-sm mx-auto w-full">
+          <!-- Header WA -->
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800 text-slate-200">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold leading-none">Cliente Potencial</p>
+                <p class="text-[10px] text-emerald-400 leading-tight">en línea</p>
+              </div>
+            </div>
+            <i class="fa-solid fa-ellipsis-vertical text-slate-500 text-xs"></i>
+          </div>
+
+          <!-- Chat bubble -->
+          <div class="my-6 space-y-2">
+            <div class="bg-[#005c4b] text-slate-100 p-3 rounded-2xl rounded-tr-none text-xs ml-auto max-w-[85%] shadow-sm leading-relaxed">
+              <p id="waBubbleMessage" class="whitespace-pre-line"></p>
+              <div class="text-[9px] text-emerald-200/60 text-right mt-1 flex items-center justify-end gap-1">
+                <span>12:45 PM</span>
+                <i class="fa-solid fa-check-double text-blue-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer WA input -->
+          <div class="bg-[#202c33] p-2 rounded-xl flex items-center gap-2 text-slate-400 text-xs">
+            <i class="fa-regular fa-face-smile"></i>
+            <span class="flex-1 text-slate-500 text-[11px]">Mensaje...</span>
+            <i class="fa-solid fa-microphone"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PESTAÑA 4: LOGS API META ==================== -->
+    <section id="view-logs" class="hidden space-y-4">
+      <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex items-center justify-between">
+        <div>
+          <h2 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-terminal text-purple-400"></i> Registros de Transacción: Meta Content Publishing API
+          </h2>
+          <p class="text-[11px] text-slate-400">Registro en vivo de llamadas POST `/{ig_user_id}/media` y `/{ig_user_id}/media_publish`.</p>
+        </div>
+        <button onclick="clearLogs()" class="text-xs text-slate-400 hover:text-rose-400 transition">
+          <i class="fa-solid fa-trash"></i> Limpiar logs
+        </button>
+      </div>
+
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 font-mono text-xs overflow-x-auto shadow-inner space-y-2.5" id="apiLogsContainer">
+        <!-- Logs dinámicos -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Configuración de WhatsApp -->
+  <div id="configModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-terminal text-cyan-400"></i> Registro de Operaciones Meta Graph API v21.0
+          <i class="fa-brands fa-whatsapp text-emerald-400"></i> Configurar WhatsApp Business
         </h3>
-        <p class="text-xs text-slate-400">Rastreo de IDs de contenedores y respuestas de publicación en vivo.</p>
+        <button onclick="closeConfigModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <button onclick="clearLogs()" class="text-xs text-slate-400 hover:text-rose-400 transition flex items-center gap-1.5 font-semibold">
-        <i class="fa-solid fa-trash-can"></i> Limpiar consola
+      <p class="text-xs text-slate-400">Ingresa el número con clave de país (ej. +52 para México). Todos los enlaces dinámicos redirigirán a esta línea.</p>
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Número de WhatsApp</label>
+        <input type="text" id="waNumberInput" value="5216861234567" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-emerald-500">
+      </div>
+      <button onclick="saveWaNumber()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition">
+        Guardar Configuración
       </button>
     </div>
-
-    <div id="logsTerminal" class="bg-slate-950 border border-slate-800 rounded-2xl p-4 font-mono text-xs text-slate-300 space-y-2 max-h-[480px] overflow-y-auto">
-      <!-- Logs precargados -->
-    </div>
-  </div>
-</section>
-
-
-  <div class="space-y-3 text-xs">
-    <div>
-      <label class="block font-semibold text-slate-300 mb-1">Número de WhatsApp (con código de país sin +)</label>
-      <input type="text" id="cfgWaNumber" value="5216861234567" 
-             class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-violet-500">
-      <p class="text-[10px] text-slate-500 mt-1">Ejemplo México: 521 + 10 dígitos (5216861234567)</p>
-    </div>
-
-    <div>
-      <label class="block font-semibold text-slate-300 mb-1">Cuenta de Instagram Oficial</label>
-      <input type="text" id="cfgIgUser" value="infinity4everyone" 
-             class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-mono focus:outline-none focus:border-violet-500">
-    </div>
   </div>
 
-  <div class="pt-3 flex justify-end gap-2">
-    <button onclick="closeConfigModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition">
-      Cancelar
-    </button>
-    <button onclick="saveConfig()" class="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold rounded-xl transition">
-      Guardar Cambios
-    </button>
+  <!-- Notificación Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 border border-purple-500/50 shadow-2xl shadow-purple-950/80 rounded-xl p-4 text-xs flex items-center gap-3">
+    <div id="toastIcon" class="text-base text-purple-400"></div>
+    <div id="toastMsg" class="font-semibold text-slate-200"></div>
   </div>
-</div>
+
+  <!-- Lógica y Estado de la Aplicación -->
+  <script>
+    // Configuración Global
+    let currentWaNumber = "5216861234567";
+    const IG_ACCOUNT_ID = "17841405928172911";
+
+    // Base de Datos en Memoria (Productos iniciales)
+    let inventory = [
+      {
+        id: "INF-8491",
+        title: "Silla Gamer Infinity Ergo Throne RGB",
+        category: "Sillas",
+        price: 4499,
+        stock: 5,
+        published: true,
+        metaPostId: "17923491823901",
+        image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "INF-7102",
+        title: "Headset Inalámbrico Void 7.1 Pro",
+        category: "Audio",
+        price: 1899,
+        stock: 8,
+        published: true,
+        metaPostId: "17923491823902",
+        image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "INF-3310",
+        title: "Teclado Mecánico RGB Switch Óptico Red",
+        category: "Periféricos",
+        price: 1290,
+        stock: 4,
+        published: true,
+        metaPostId: "17923491823903",
+        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "INF-1109",
+        title: "Mousepad Gamer XXL Control Speed 90x40",
+        category: "Accesorios",
+        price: 499,
+        stock: 0,
+        published: false,
+        metaPostId: null,
+        image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80"
+      }
+    ];
+
+    let apiLogs = [
+      { time: "11:20:04", method: "POST", endpoint: `/${IG_ACCOUNT_ID}/media`, status: 200, res: '{ "id": "17894928172901" } // Container Creado' },
+      { time: "11:20:06", method: "POST", endpoint: `/${IG_ACCOUNT_ID}/media_publish`, status: 200, res: '{ "id": "17923491823901" } // Publicado en @infinity4everyone_store' }
+    ];
+
+    // Cambio de Pestañas
+    function switchTab(tabKey) {
+      ['inventory', 'publish', 'whatsapp', 'logs'].forEach(k => {
+        document.getElementById(`view-${k}`).classList.add('hidden');
+        const btn = document.getElementById(`tab-${k}`);
+        btn.classList.remove('text-purple-400', 'bg-purple-500/10', 'border', 'border-purple-500/20');
+        btn.classList.add('text-slate-400');
+      });
+
+      const activeView = document.getElementById(`view-${tabKey}`);
+      const activeBtn = document.getElementById(`tab-${tabKey}`);
+      if (tabKey === 'publish') {
+        activeView.classList.remove('hidden');
+        activeView.classList.add('grid');
+      } else {
+        activeView.classList.remove('hidden');
+      }
+      activeBtn.classList.remove('text-slate-400');
+      activeBtn.classList.add('text-purple-400', 'bg-purple-500/10', 'border', 'border-purple-500/20');
+
+      if (tabKey === 'whatsapp') {
+        populateWaSelect();
+        updateWaTestPreview();
+      }
+    }
+
+    // Renderizado de Tabla de Inventario
+    function renderInventoryTable(items = inventory) {
+      const tbody = document.getElementById('inventoryTableBody');
+      tbody.innerHTML = '';
+
+      let totalUnits = 0;
+      let totalValue = 0;
+      let publishedCount = 0;
+
+      items.forEach(prod => {
+        totalUnits += prod.stock;
+        totalValue += (prod.price * prod.stock);
+        if (prod.published) publishedCount++;
+
+        const isOutOfStock = prod.stock === 0;
+        const stockBadge = isOutOfStock
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">AGOTADO (0)</span>`
+          : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">${prod.stock} disponibles</span>`;
+
+        const metaBadge = prod.published
+          ? `<span class="inline-flex items-center gap-1 text-[11px] text-pink-400 font-semibold"><i class="fa-brands fa-instagram"></i> En Vivo (#${prod.metaPostId.slice(-4)})</span>`
+          : `<span class="text-[11px] text-slate-500">No publicado</span>`;
+
+        const waUrl = getProductWaUrl(prod);
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40 transition";
+        tr.innerHTML = `
+          <td class="p-4 flex items-center gap-3">
+            <img src="${prod.image}" class="w-10 h-10 rounded-lg object-cover border border-slate-800 shrink-0">
+            <div>
+              <p class="font-bold text-white">${prod.title}</p>
+              <p class="text-[10px] text-slate-400 font-mono">SKU: ${prod.id}</p>
+            </div>
+          </td>
+          <td class="p-4 text-slate-300">${prod.category}</td>
+          <td class="p-4 font-mono font-bold text-purple-400">$${prod.price.toLocaleString('es-MX')}</td>
+          <td class="p-4">${stockBadge}</td>
+          <td class="p-4">${metaBadge}</td>
+          <td class="p-4 text-center">
+            <div class="inline-flex items-center gap-1.5">
+              <button onclick="decrementStock('${prod.id}')" title="Registrar venta local (-1 stock)" 
+                      class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 rounded-lg text-[11px] font-semibold transition flex items-center gap-1">
+                <i class="fa-solid fa-cart-shopping text-emerald-400"></i> -1 Venta
+              </button>
+              <a href="${waUrl}" target="_blank" title="Abrir enlace de WhatsApp de este producto"
+                 class="px-2.5 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-lg text-[11px] font-semibold transition flex items-center gap-1">
+                <i class="fa-brands fa-whatsapp"></i> WA Link
+              </a>
+              ${!prod.published ? `
+              <button onclick="quickPublish('${prod.id}')" title="Publicar a Instagram" 
+                      class="px-2.5 py-1.5 bg-pink-600/20 hover:bg-pink-600/30 text-pink-300 border border-pink-500/30 rounded-lg text-[11px] font-semibold transition flex items-center gap-1">
+                <i class="fa-brands fa-instagram"></i> Post
+              </button>` : ''}
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Actualizar métricas del dashboard
+      document.getElementById('metricTotalUnits').innerText = `${totalUnits} pzs`;
+      document.getElementById('metricTotalValue').innerText = `$${totalValue.toLocaleString('es-MX')}`;
+      document.getElementById('metricPublishedCount').innerText = `${publishedCount} posts`;
+    }
+
+    // Filtrar inventario
+    function filterTable() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const cat = document.getElementById('categoryFilter').value;
+
+      const filtered = inventory.filter(item => {
+        const matchesQuery = item.title.toLowerCase().includes(q) || item.id.toLowerCase().includes(q);
+        const matchesCategory = (cat === 'ALL') || (item.category === cat);
+        return matchesQuery && matchesCategory;
+      });
+      renderInventoryTable(filtered);
+    }
+
+    // Venta Rápida (-1 Stock)
+    function decrementStock(sku) {
+      const item = inventory.find(i => i.id === sku);
+      if (item) {
+        if (item.stock > 0) {
+          item.stock--;
+          showToast(`Venta registrada para ${item.title}. Stock restante: ${item.stock}`, 'fa-solid fa-circle-check');
+          renderInventoryTable();
+          if (item.stock === 0) {
+            logApiCall(`PATCH /${IG_ACCOUNT_ID}/media/${item.metaPostId || 'mock'}`, 200, `// Notificación: Producto ${sku} AGOTADO. Enlace WA actualizado.`);
+          }
+        } else {
+          showToast(`El producto ${item.title} ya está agotado.`, 'fa-solid fa-triangle-exclamation');
+        }
+      }
+    }
+
+    // Publicación Rápida desde inventario
+    function quickPublish(sku) {
+      const item = inventory.find(i => i.id === sku);
+      if (item) {
+        item.published = true;
+        item.metaPostId = "17923491823" + Math.floor(100 + Math.random() * 900);
+        logApiCall(`POST /${IG_ACCOUNT_ID}/media`, 200, `// Container ID: 178949${Math.floor(1000 + Math.random() * 9000)}`);
+        logApiCall(`POST /${IG_ACCOUNT_ID}/media_publish`, 200, `// Post ID: ${item.metaPostId} en vivo`);
+        showToast(`¡${item.title} publicado con éxito en @infinity4everyone_store!`, 'fa-brands fa-instagram');
+        renderInventoryTable();
+      }
+    }
+
+    // Generador de URL de WhatsApp
+    function getProductWaUrl(prod) {
+      const msg = `¡Hola Infinity4Everyone! 🎮 Me interesa comprar el producto:\n\n📦 *${prod.title}*\n🏷️ SKU: ${prod.id}\n💵 Precio: $${prod.price.toLocaleString('es-MX')} MXN\n\n¿Sigue disponible para entrega/envío?`;
+      return `https://wa.me/${currentWaNumber}?text=${encodeURIComponent(msg)}`;
+    }
+
+    // Gestión del Formulario de Alta y Preview
+    function refreshCopyTemplate() {
+      const title = document.getElementById('inputTitle').value.trim();
+      const price = Number(document.getElementById('inputPrice').value) || 0;
+      const stock = document.getElementById('inputStock').value;
+      const sku = document.getElementById('formSkuDisplay').innerText.replace('SKU: ', '');
+
+      const template = `🔥 NUEVO EN STOCK: ${title} 🔥\n\n💵 Precio: $${price.toLocaleString('es-MX')} MXN\n📦 Unidades disponibles: ${stock} piezas\n🏷️ SKU: ${sku}\n\n✅ 100% Original con garantía Infinity4Everyone\n🚚 Entrega inmediata local y envíos a todo México\n\n👉 Aparta en el link de la bio o pulsa el enlace directo de WhatsApp.\n\n#infinity4everyone #gamingmexico #setupsgamer #pcgaming`;
+      
+      document.getElementById('inputCaption').value = template;
+      document.getElementById('igPreviewCaption').innerText = template;
+      document.getElementById('igPreviewStockBadge').innerText = `${stock} en stock`;
+    }
+
+    ['inputTitle', 'inputPrice', 'inputStock'].forEach(id => {
+      document.getElementById(id).addEventListener('input', refreshCopyTemplate);
+    });
+
+    document.getElementById('inputCaption').addEventListener('input', (e) => {
+      document.getElementById('igPreviewCaption').innerText = e.target.value;
+    });
+
+    // Subida de imagen en formulario
+    document.getElementById('imageFileInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        document.getElementById('formImageThumb').src = url;
+        document.getElementById('igPreviewImage').src = url;
+      }
+    });
+
+    // Guardar y Publicar
+    function handleSaveAndPublish() {
+      const btn = document.getElementById('btnSaveAndPublish');
+      const title = document.getElementById('inputTitle').value.trim();
+      const category = document.getElementById('inputCategory').value;
+      const price = Number(document.getElementById('inputPrice').value);
+      const stock = Number(document.getElementById('inputStock').value);
+      const image = document.getElementById('formImageThumb').src;
+      const willPublish = document.getElementById('checkPublishInstagram').checked;
+      const newSku = "INF-" + Math.floor(1000 + Math.random() * 9000);
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Procesando imagen y conectando con Meta...`;
+
+      setTimeout(() => {
+        const newPostId = willPublish ? "17923491823" + Math.floor(100 + Math.random() * 900) : null;
+        
+        if (willPublish) {
+          logApiCall(`POST /${IG_ACCOUNT_ID}/media`, 200, `{ "id": "178949${Math.floor(1000 + Math.random() * 9000)}" } // Contenedor listo`);
+          logApiCall(`POST /${IG_ACCOUNT_ID}/media_publish`, 200, `{ "id": "${newPostId}" } // Publicado con éxito`);
+        }
+
+        inventory.unshift({
+          id: newSku,
+          title: title,
+          category: category,
+          price: price,
+          stock: stock,
+          published: willPublish,
+          metaPostId: newPostId,
+          image: image
+        });
+
+        renderInventoryTable();
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-bolt"></i> Guardar en Inventario y Publicar en Redes`;
+        
+        showToast(willPublish ? `¡Guardado en inventario y publicado en Instagram!` : `Guardado en inventario exitosamente.`, 'fa-solid fa-circle-check');
+        document.getElementById('formSkuDisplay').innerText = `SKU: INF-${Math.floor(1000 + Math.random() * 9000)}`;
+        switchTab('inventory');
+      }, 1400);
+    }
+
+    // Modal de WhatsApp
+    function openConfigModal() {
+      document.getElementById('configModal').classList.remove('hidden');
+    }
+    function closeConfigModal() {
+      document.getElementById('configModal').classList.add('hidden');
+    }
+    function saveWaNumber() {
+      const num = document.getElementById('waNumberInput').value.trim();
+      if (num) {
+        currentWaNumber = num;
+        document.getElementById('headerWaNumberDisplay').innerText = `+${num}`;
+        renderInventoryTable();
+        closeConfigModal();
+        showToast(`Número de WhatsApp actualizado a +${num}`, 'fa-brands fa-whatsapp');
+      }
+    }
+
+    // Módulo de prueba WhatsApp
+    function populateWaSelect() {
+      const sel = document.getElementById('selectWaTestProduct');
+      sel.innerHTML = '';
+      inventory.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.innerText = `${p.title} ($${p.price.toLocaleString('es-MX')} MXN)`;
+        sel.appendChild(opt);
+      });
+    }
+
+    function updateWaTestPreview() {
+      const selId = document.getElementById('selectWaTestProduct').value;
+      const prod = inventory.find(i => i.id === selId) || inventory[0];
+      if (prod) {
+        const url = getProductWaUrl(prod);
+        document.getElementById('waTestGeneratedUrl').innerText = url;
+        const msg = `¡Hola Infinity4Everyone! 🎮 Me interesa comprar el producto:\n\n📦 *${prod.title}*\n🏷️ SKU: ${prod.id}\n💵 Precio: $${prod.price.toLocaleString('es-MX')} MXN\n\n¿Sigue disponible para entrega/envío?`;
+        document.getElementById('waBubbleMessage').innerText = msg;
+      }
+    }
+
+    function triggerWaSimulatedSend() {
+      const selId = document.getElementById('selectWaTestProduct').value;
+      const prod = inventory.find(i => i.id === selId) || inventory[0];
+      const url = getProductWaUrl(prod);
+      window.open(url, '_blank');
+    }
+
+    // API Logs
+    function logApiCall(endpoint, status, res) {
+      const now = new Date();
+      const time = now.toTimeString().split(' ')[0];
+      apiLogs.unshift({
+        time: time,
+        method: "POST",
+        endpoint: endpoint,
+        status: status,
+        res: res
+      });
+      renderLogs();
+    }
+
+    function renderLogs() {
+      const container = document.getElementById('apiLogsContainer');
+      container.innerHTML = '';
+      apiLogs.forEach(l => {
+        const div = document.createElement('div');
+        div.className = "p-2 rounded bg-slate-900 border border-slate-800";
+        div.innerHTML = `
+          <div class="flex items-center justify-between text-[11px] mb-1">
+            <span class="text-purple-400 font-bold">${l.method} ${l.endpoint}</span>
+            <span class="text-emerald-400 font-bold">STATUS ${l.status} OK</span>
+          </div>
+          <p class="text-slate-400 text-[10px]">${l.res}</p>
+          <span class="text-[9px] text-slate-600">${l.time}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function clearLogs() {
+      apiLogs = [];
+      renderLogs();
+    }
+
+    // Toast
+    function showToast(msg, iconClass) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      document.getElementById('toastIcon').innerHTML = `<i class="${iconClass}"></i>`;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+
+    // Inicialización
+    renderInventoryTable();
+    refreshCopyTemplate();
+    renderLogs();
+  </script>
+</body>
+</html>
